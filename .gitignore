@@ -1,4 +1,3 @@
-
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
 # Byte-compiled / optimized / DLL files
@@ -153,3 +152,4 @@ fabric.properties
 settings.json
 /sql_connect.json
 .idea/vcs.xml
+.gitattributes

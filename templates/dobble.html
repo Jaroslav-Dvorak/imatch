@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dobble</title>
+    <script src="./static/socket.io.js"></script>
+    <script src="./static/dobble.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dobble.css') }}">
+</head>
+<body onload="doc_ready()">
+
+<div id="img_container" style="display: none;">
+    {% for id, img_path in imgs_path.items() %}
+        <img id="{{ id }}" src="{{ img_path }}"/>
+    {% endfor %}
+</div>
+
+<div id="common_deck" class="deck">
+    {% for i in range(8) %}
+        <img class="pict" draggable="false"/>
+    {% endfor %}
+</div>
+
+<div id="player_deck" class="deck">
+    {% for i in range(8) %}
+        <img class="pict" draggable="false"/>
+    {% endfor %}
+</div>
+
+<div>
+    <input type="submit" id="btn" name="btn" value="text" onclick="btn_clicked();" style="font-size: xxx-large;"/>
+</div>
+</body>
+</html>

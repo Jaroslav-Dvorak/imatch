@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>dobble</title>
+
+<!--    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"-->
+<!--            integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI"-->
+<!--            crossorigin="anonymous"></script>-->
     <script src="./static/socket.io.js"></script>
+    <script type="text/javascript">
+       if (typeof io === 'undefined') {
+           var s_io = document.createElement('script');
+           s_io.type = "text/javascript";
+           s_io.src = './static/socket.io.js';
+           document.head.appendChild(s_io);
+        }
+    </script>
+
     <script src="./static/dobble.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dobble.css') }}">
 </head>
+
 <body onload="doc_ready()">
 
 <div id="img_container" style="display: none;">

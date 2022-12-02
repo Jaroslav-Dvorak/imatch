@@ -3,12 +3,12 @@ from .generators import generate_pictures, generate_points
 
 class Card:
     def __init__(self, set_of_picts, other_cards=()):
-        other_cards_pictures = [picts.picts_on_cards for picts in other_cards]
-        self.picts_on_cards = generate_pictures(other_cards_pictures=other_cards_pictures,
-                                                all_pictures=set_of_picts)
+        # other_cards_pictures = [picts.picts_on_cards for picts in other_cards]
+        self.picts = generate_pictures(other_cards_pictures=other_cards,
+                                       all_pictures=set_of_picts)
         points = generate_points()
         self.arragement = {}
-        for idx, pict in enumerate(self.picts_on_cards):
+        for idx, pict in enumerate(self.picts):
             coords = {}
             for k, v in points.items():
                 coords[k] = v[idx]

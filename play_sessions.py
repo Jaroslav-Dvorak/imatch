@@ -16,7 +16,7 @@ class PlaySessions:
         #         self.games[game_id].on_connect(user)
 
         @socketio.on('client_connect', namespace="/dobble")
-        def handle_my_custom_event(data):
+        def client_connect(data):
             user = request.sid
             print(f'User: {user} connected! Data: {data}')
             # if (data is not None and
@@ -30,6 +30,20 @@ class PlaySessions:
                 socketio.emit("bad_link", {"msg": "bad_link"}, namespace="/dobble")
             else:
                 self.players[user] = game_id
+
+        @socketio.on('client_ready', namespace="/dobble")
+        def on_ready(data):
+            user = request.sid
+            print(f'User: {user} connected! Data: {data}')
+            # if (data is not None and
+            #         data.get("game_id", None) is not None and
+            #         type(data["game_id"]) == "int"):
+            try:
+                game_id = self.players[user]
+                self.games[game_id].on_ready(user)
+            except KeyError:
+                print(f"Game does not exist.")
+                socketio.emit("bad_link", {"msg": "bad_link"}, namespace="/dobble")
 
         @socketio.on('disconnect', namespace="/dobble")
         def handle_my_custom_event():

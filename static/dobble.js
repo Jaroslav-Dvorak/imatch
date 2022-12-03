@@ -1,6 +1,7 @@
 namespace = '/dobble';
 var socket = io(namespace);
 var game_id = parseInt(window.location.pathname.replace(/^\/+|\/+$/g, ''))
+var cycle_id;
 
 socket.on('connect', function() {
     socket.emit('client_connect', {data: 'Connected!', game_id: game_id});
@@ -19,13 +20,13 @@ function doc_ready() {
     socket.emit("client_ready", {})
 }
 
-
 socket.on('move_result', function(data) {
-    var card = data.common_card
+    cycle_id = data.cycle_id;
+    var card = data.common_card;
     var deck_elm = document.getElementById("common_deck").children;
     var index = 0;
     for (var pict_id in card){
-        deck_elm[index].src = imgs[pict_id]
+        deck_elm[index].src = imgs[pict_id];
         deck_elm[index].style.left = card[pict_id].x + "%";
         deck_elm[index].style.top = card[pict_id].y + "%";
         deck_elm[index].style.height = card[pict_id].h + "%";
@@ -41,18 +42,12 @@ socket.on('move_result', function(data) {
         deck_elm[index].style.top = card[pict_id].y + "%";
         deck_elm[index].style.height = card[pict_id].h + "%";
         deck_elm[index].style.transform = "translate(-50%, -50%) rotate("+card[pict_id].r+"deg)";
-        deck_elm[index].addEventListener("click", pict_clicked.bind(this, pict_id), false);
+        deck_elm[index].replaceWith(deck_elm[index].cloneNode(true))
+        deck_elm[index].addEventListener("click", pict_clicked.bind(this, pict_id));
         index++
     }
 });
 
 function pict_clicked(pict_id) {
-console.log(pict_id)
-  socket.emit('pict_clicked', {data: {pict_id: pict_id, move_id: 666}, game_id: game_id})
+  socket.emit('pict_clicked', {"pict_id": pict_id, "game_id": game_id, "cycle_id": cycle_id})
 };
-
-var common_deck;
-var player_deck;
-function btn_clicked() {
-    socket.emit('pict_clicked', {data: {}, game_id: game_id})
-}

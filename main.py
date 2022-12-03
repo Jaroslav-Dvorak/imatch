@@ -6,7 +6,9 @@ from games.dobble import Dobble
 @app.route("/", methods=["POST", "GET"])
 def index():
     if request.method == "POST":
-        theme = request.form["computer"]
+        print(list(request.form.items())[0][0].split(".")[0])
+        theme = request.form["computer.x"]
+        theme = list(request.form.items())[0][0].split(".")[0]
         playing + Dobble(theme)
         return redirect(url_for("game", gamenum=playing.next_game_id-1))
 
@@ -23,3 +25,14 @@ def game(gamenum):
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, allow_unsafe_werkzeug=True, host="0.0.0.0")
+
+
+# TODO:
+# - each player other background
+# - score indicator
+# - animations
+# - more themes
+# - rules and multiplayer description
+# - link to github (and others)
+# - english and czech
+# - wsgi and deployement

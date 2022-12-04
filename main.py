@@ -7,7 +7,7 @@ from games.dobble import Dobble
 def index():
     if request.method == "POST":
         theme = list(request.form.items())[0][0].split(".")[0]
-        playing + Dobble(theme)
+        playing + Dobble("emoji")
         return redirect(url_for("game", gamenum=playing.next_game_id-1))
 
     return render_template("index.html")
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 # - each player other background        ✅
 # - score indicator                     ✅
 # - animations
-# - more themes
+# - more themes                         ✅
 # - rules and multiplayer description
 # - link to github (and others)
 # - readme file, public repo

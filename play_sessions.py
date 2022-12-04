@@ -14,7 +14,7 @@ class PlaySessions:
             refuse = False
             try:
                 game_id = data["game_id"]
-                self.games[game_id].on_connect(user)
+                self.games[game_id].on_connect(user, data)
             except KeyError:
                 print(f"On_client: Game does not exist.")
                 refuse = True
@@ -26,7 +26,7 @@ class PlaySessions:
                 else:
                     refuse = True
             if refuse:
-                socketio.emit("bad_link", {"msg": "bad_link"}, namespace="/dobble")
+                socketio.emit("bad_link", {"msg": "bad_link"}, namespace="/dobble", room=[user])
 
         @socketio.on('client_ready', namespace="/dobble")
         def on_ready(data):
@@ -37,7 +37,7 @@ class PlaySessions:
                 self.games[game_id].on_ready(user)
             except KeyError:
                 print(f"On ready: Game does not exist.")
-                socketio.emit("bad_link", {"msg": "bad_link"}, namespace="/dobble")
+                socketio.emit("bad_link", {"msg": "bad_link"}, namespace="/dobble", room=[user])
 
         @socketio.on('disconnect', namespace="/dobble")
         def disconnect():

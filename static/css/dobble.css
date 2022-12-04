@@ -2,7 +2,19 @@ body {
 display: flex;
 flex-direction: column;
 align-items: center;
-background: darkslategrey;
+}
+
+#score_bar{
+    width: 90vw;
+    max-width: 45vh;
+    height: 2vh;
+    border: solid;
+    background: black;
+}
+.score{
+    display: inline-block;
+    width: 50%;
+    height: inherit;
 }
 
 img {
@@ -16,6 +28,7 @@ cursor: pointer;
 
 div.deck {
     position: relative;
+    margin-top: 1vh;
     width: 90vw;
     max-width: 45vh;
     border: solid;

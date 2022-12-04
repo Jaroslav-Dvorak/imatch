@@ -6,8 +6,6 @@ from games.dobble import Dobble
 @app.route("/", methods=["POST", "GET"])
 def index():
     if request.method == "POST":
-        print(list(request.form.items())[0][0].split(".")[0])
-        theme = request.form["computer.x"]
         theme = list(request.form.items())[0][0].split(".")[0]
         playing + Dobble(theme)
         return redirect(url_for("game", gamenum=playing.next_game_id-1))
@@ -28,11 +26,12 @@ if __name__ == '__main__':
 
 
 # TODO:
-# - each player other background
-# - score indicator
+# - each player other background        ✅
+# - score indicator                     ✅
 # - animations
 # - more themes
 # - rules and multiplayer description
 # - link to github (and others)
+# - readme file, public repo
 # - english and czech
 # - wsgi and deployement

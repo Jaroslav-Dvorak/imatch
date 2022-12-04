@@ -1,6 +1,7 @@
 from random import sample, choice, randint
 import math
-from .parameters import PICTS_PER_CARD
+
+PICTS_PER_CARD = 8
 
 
 def generate_points(size=50):

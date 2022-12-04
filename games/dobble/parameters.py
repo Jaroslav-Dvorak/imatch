@@ -1,1 +1,0 @@
-PICTS_PER_CARD = 8

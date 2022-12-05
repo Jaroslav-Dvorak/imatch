@@ -24,6 +24,7 @@ class Dobble:
     MAX_PLAYERS = 8
     COLORS = {"rgb(34, 34, 70)", "rgb(84, 139, 84)", "rgb(139, 35, 35)", "rgb(49, 169, 196)",
               "rgb(81, 46, 95)", "rgb(106, 87, 9)", "rgb(78, 52, 52)", "rgb(227, 94, 79)"}
+    # burlywood, darkslategrey, dimgrey, maroon, teal
 
     def __init__(self, theme):
         theme_path = f"static/themes/{theme}"
@@ -44,7 +45,7 @@ class Dobble:
         self.players[user] = Player(self.new_card(), background)
 
     def on_ready(self, user):
-        self.send_cards(user)
+        self.send_cards(user, both_cards=True)
 
         for usr, obj in self.players.items():
             obj.multiplay_score = 0
@@ -68,25 +69,27 @@ class Dobble:
                 self.players[user].score += 1
                 self.common_card = self.players[user].card
                 self.players[user].card = self.new_card()
-                self.send_cards(user)
+                self.send_cards(user, both_cards=True)
                 loosers = set(self.players.keys()) - {user}
                 if loosers:
-                    self.send_cards(*loosers)
+                    self.send_cards(*loosers, both_cards=False)
             else:
                 self.players[user].play(-1)
             self.send_scores()
 
-    def send_cards(self, *users):
+    def send_cards(self, *users, both_cards):
         data = {"common_card": self.common_card.arragement,
                 "cycle_id": self.cycle_id
                 }
-        if len(users) == 1:
+        if both_cards:
             winner = users[0]
             data["player_card"] = self.players[winner].card.arragement
             socketio.emit("move_result", data, namespace="/dobble", room=[winner])
-        elif len(users) > 1:
+        else:
             for looser in users:
                 socketio.emit("move_result", data, namespace="/dobble", room=[looser])
+
+        print("dddddddd:", users)
 
     def send_scores(self):
         data = {}

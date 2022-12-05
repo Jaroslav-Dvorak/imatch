@@ -23,7 +23,11 @@ function doc_ready() {
     socket.emit("client_ready", {});
 }
 
+var firstcard = true;
 socket.on("move_result", function(data) {
+
+    var winner = (!(data["player_card"] === undefined));
+
     cycle_id = data.cycle_id;
     var card = data.common_card;
     var deck_elm = document.getElementById("common_deck").children;

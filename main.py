@@ -7,7 +7,7 @@ from games.dobble import Dobble
 def index():
     if request.method == "POST":
         theme = list(request.form.items())[0][0].split(".")[0]
-        playing + Dobble("emoji")
+        playing + Dobble(theme)
         return redirect(url_for("game", gamenum=playing.next_game_id-1))
 
     return render_template("index.html")
@@ -22,7 +22,7 @@ def game(gamenum):
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, allow_unsafe_werkzeug=True, host="0.0.0.0")
+    socketio.run(app, debug=True, host="0.0.0.0")
 
 
 # TODO:
@@ -34,4 +34,4 @@ if __name__ == '__main__':
 # - link to github (and others)
 # - readme file, public repo
 # - english and czech
-# - wsgi and deployement
+# - wsgi anmd deployeent

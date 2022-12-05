@@ -45,10 +45,10 @@ class Dobble:
 
     def on_ready(self, user):
         self.send_cards(user)
-        if len(self.players) > 1:
-            for usr, obj in self.players.items():
-                obj.multiplay_score = 0
-            self.send_scores()
+
+        for usr, obj in self.players.items():
+            obj.multiplay_score = 0
+        self.send_scores()
 
     def on_disconnect(self, user):
         self.players.pop(user)

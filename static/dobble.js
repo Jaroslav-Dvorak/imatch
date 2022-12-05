@@ -51,6 +51,22 @@ socket.on("move_result", function(data) {
     }
 });
 
+function btn_clicked() {
+    var deck_elm = document.getElementById("player_deck")
+    var pos_start = deck_elm.getBoundingClientRect();
+    var temp_deck = deck_elm.cloneNode(true)
+    var deck_elm = document.getElementById("common_deck")
+    var pos_end = deck_elm.getBoundingClientRect();
+    temp_deck.id = "temp_player_deck"
+    temp_deck.style.position = "fixed";
+    temp_deck.style.transition = "top 0.2s ease-out 0s";
+    temp_deck.style.top = pos_start.y-10+"px";
+    var body = document.getElementById("body");
+    body.appendChild(temp_deck);
+    var temp_deck = document.getElementById("temp_player_deck")
+    setTimeout(()=> temp_deck.style.top = pos_end.y-10+"px", 1);
+}
+
 function pict_clicked(pict_id) {
     socket.emit("pict_clicked", {"pict_id": pict_id, "game_id": game_id, "cycle_id": cycle_id});
 };

@@ -9,7 +9,7 @@ from .player import Player
 @socketio.on('pict_clicked', namespace="/dobble")
 def handle_my_custom_event(data):
     if data is not None:
-        print('received json: ' + str(data))
+        # print('received json: ' + str(data))
         user = request.sid # NOQA
         try:
             game_id = int(data["game_id"])
@@ -88,8 +88,6 @@ class Dobble:
         else:
             for looser in users:
                 socketio.emit("move_result", data, namespace="/dobble", room=[looser])
-
-        print("dddddddd:", users)
 
     def send_scores(self):
         data = {}

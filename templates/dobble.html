@@ -20,7 +20,7 @@
     <script src="./static/dobble.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dobble.css') }}">
 </head>
-<body id="body" onload="doc_ready()" style="background: {{ background }};">
+<body onload="doc_ready()" style="background: {{ background }};">
 
 <div id="score_bar">
 </div>
@@ -32,18 +32,10 @@
 </div>
 
 <div id="common_deck" class="deck">
-    {% for i in range(8) %}
-        <img class="pict" draggable="false"/>
-    {% endfor %}
 </div>
 
 <div id="player_deck" class="deck">
-    {% for i in range(8) %}
-        <img class="pict" draggable="false"/>
-    {% endfor %}
 </div>
-
-<button onclick="btn_clicked()" value="trig">Ahoj</button>
 
 </body>
 </html>

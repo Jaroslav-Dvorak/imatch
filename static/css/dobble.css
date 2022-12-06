@@ -24,7 +24,10 @@ left: 50%;
 top: 50%;
 height: 30%;
 transform: translate(-50%, -50%);
-cursor: pointer;
+}
+
+.clickable{
+    cursor: pointer;
 }
 
 div.deck {

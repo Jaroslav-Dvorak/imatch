@@ -28,10 +28,10 @@ if __name__ == '__main__':
 # TODO:
 # - each player other background        ✅
 # - score indicator                     ✅
-# - animations
+# - animations                          ✅
 # - more themes                         ✅
 # - rules and multiplayer description
 # - link to github (and others)
 # - readme file, public repo
 # - english and czech
-# - wsgi anmd deployeent
+# - wsgi and deployeent

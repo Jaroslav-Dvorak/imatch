@@ -14,62 +14,85 @@ socket.on("bad_link", function() {
     window.location.href = "/";
 });
 
-var imgs = {};
+var Imgs = {};
 function doc_ready() {
     var imgs_elm = document.getElementById("img_container").children;
     for (var i=0; i < imgs_elm.length; i++){
-        imgs[i] = imgs_elm[i].src;
+        Imgs[i] = imgs_elm[i].src;
     }
     socket.emit("client_ready", {});
+}
+
+function make_deck (card, id) {
+    var new_deck = document.createElement("div");
+    new_deck.className ="deck";
+    new_deck.id = id;
+    var index = 0;
+    for (var pict_id in card){
+        var new_deck_elm = document.createElement("img");
+
+        new_deck_elm.src = Imgs[pict_id];
+        new_deck_elm.style.left = card[pict_id].x + "%";
+        new_deck_elm.style.top = card[pict_id].y + "%";
+        new_deck_elm.style.height = card[pict_id].h + "%";
+        new_deck_elm.style.transform = "translate(-50%, -50%) rotate("+card[pict_id].r+"deg)";
+        if (id == "player_deck") {
+            new_deck_elm.addEventListener("click", pict_clicked.bind(this, pict_id));
+            new_deck_elm.className = "clickable"
+        }
+        new_deck_elm.draggable = false;
+        new_deck.appendChild(new_deck_elm)
+        index++
+    }
+    return new_deck
 }
 
 var firstcard = true;
 socket.on("move_result", function(data) {
 
-    var winner = (!(data["player_card"] === undefined));
+    var body = document.body;
+
+    var player_card = data["player_card"];
+    var common_card = data["common_card"];
+    var player_deck = document.getElementById("player_deck");
+    var common_deck = document.getElementById("common_deck");
+
+    var winner_case = (!(data["player_card"] === undefined));
+    var pos_start = document.getElementById("player_deck").getBoundingClientRect();
+    var pos_end = document.getElementById("common_deck").getBoundingClientRect();
 
     cycle_id = data.cycle_id;
-    var card = data.common_card;
-    var deck_elm = document.getElementById("common_deck").children;
-    var index = 0;
-    for (var pict_id in card){
-        deck_elm[index].src = imgs[pict_id];
-        deck_elm[index].style.left = card[pict_id].x + "%";
-        deck_elm[index].style.top = card[pict_id].y + "%";
-        deck_elm[index].style.height = card[pict_id].h + "%";
-        deck_elm[index].style.transform = "translate(-50%, -50%) rotate("+card[pict_id].r+"deg)";
-        index++
-    }
-    var card = data.player_card;
-    var deck_elm = document.getElementById("player_deck").children;
-    var index = 0;
-    for (var pict_id in card){
-        deck_elm[index].src = imgs[pict_id];
-        deck_elm[index].style.left = card[pict_id].x + "%";
-        deck_elm[index].style.top = card[pict_id].y + "%";
-        deck_elm[index].style.height = card[pict_id].h + "%";
-        deck_elm[index].style.transform = "translate(-50%, -50%) rotate("+card[pict_id].r+"deg)";
-        deck_elm[index].replaceWith(deck_elm[index].cloneNode(true));
-        deck_elm[index].addEventListener("click", pict_clicked.bind(this, pict_id));
-        index++
-    }
-});
+    const anim_time = 300;
 
-function btn_clicked() {
-    var deck_elm = document.getElementById("player_deck")
-    var pos_start = deck_elm.getBoundingClientRect();
-    var temp_deck = deck_elm.cloneNode(true)
-    var deck_elm = document.getElementById("common_deck")
-    var pos_end = deck_elm.getBoundingClientRect();
-    temp_deck.id = "temp_player_deck"
-    temp_deck.style.position = "fixed";
-    temp_deck.style.transition = "top 0.2s ease-out 0s";
-    temp_deck.style.top = pos_start.y-10+"px";
-    var body = document.getElementById("body");
-    body.appendChild(temp_deck);
-    var temp_deck = document.getElementById("temp_player_deck")
-    setTimeout(()=> temp_deck.style.top = pos_end.y-10+"px", 1);
-}
+    if (!firstcard) {
+        if (winner_case) {
+            pos_start = (pos_start.y-10)+"px";
+            deck_temp = player_deck.cloneNode(true)
+            console.log(player_deck)
+            setTimeout(()=> common_deck.replaceWith(make_deck(common_card, "common_deck")), anim_time)
+            player_deck.replaceWith(make_deck(player_card, "player_deck"))
+
+        } else {
+            pos_start = (0 - pos_start.height - pos_start.y)+"px";
+            deck_temp = make_deck(common_card, "deck_temp")
+            setTimeout(()=> common_deck.replaceWith(make_deck(common_card, "common_deck")), anim_time)
+        }
+        deck_temp.id = "deck_temp"
+        deck_temp.style.position = "fixed";
+        deck_temp.style.transition = "top "+anim_time+"ms ease-out 0s";
+        deck_temp.style.top = pos_start;
+
+        body.appendChild(deck_temp);
+        setTimeout(()=> deck_temp.style.top = pos_end.y-10+"px", 1);
+        setTimeout(()=> deck_temp.remove(), anim_time);
+    }
+    else {
+        player_deck.replaceWith(make_deck(player_card, "player_deck"))
+        common_deck.replaceWith(make_deck(common_card, "common_deck"))
+    }
+
+    firstcard = false;
+});
 
 function pict_clicked(pict_id) {
     socket.emit("pict_clicked", {"pict_id": pict_id, "game_id": game_id, "cycle_id": cycle_id});

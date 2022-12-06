@@ -5,7 +5,7 @@ var game_id = parseInt(window.location.pathname.replace(/^\/+|\/+$/g, ''));
 var cycle_id;
 
 socket.on("connect", function() {
-    var background = document.getElementById("body").style.background;
+    var background = document.body.style.background;
     socket.emit("client_connect", {"background": background, "game_id": game_id});
 
 });
@@ -21,7 +21,7 @@ function doc_ready() {
         Imgs[i] = imgs_elm[i].src;
     }
     socket.emit("client_ready", {});
-}
+};
 
 function make_deck (card, id) {
     var new_deck = document.createElement("div");
@@ -38,14 +38,14 @@ function make_deck (card, id) {
         new_deck_elm.style.transform = "translate(-50%, -50%) rotate("+card[pict_id].r+"deg)";
         if (id == "player_deck") {
             new_deck_elm.addEventListener("click", pict_clicked.bind(this, pict_id));
-            new_deck_elm.className = "clickable"
+            new_deck_elm.className = "clickable";
         }
         new_deck_elm.draggable = false;
-        new_deck.appendChild(new_deck_elm)
-        index++
+        new_deck.appendChild(new_deck_elm);
+        index++;
     }
-    return new_deck
-}
+    return new_deck;
+};
 
 var firstcard = true;
 socket.on("move_result", function(data) {
@@ -67,17 +67,17 @@ socket.on("move_result", function(data) {
     if (!firstcard) {
         if (winner_case) {
             pos_start = (pos_start.y-10)+"px";
-            deck_temp = player_deck.cloneNode(true)
-            console.log(player_deck)
-            setTimeout(()=> common_deck.replaceWith(make_deck(common_card, "common_deck")), anim_time)
-            player_deck.replaceWith(make_deck(player_card, "player_deck"))
+            deck_temp = player_deck.cloneNode(true);
+            console.log(player_deck);
+            setTimeout(()=> common_deck.replaceWith(make_deck(common_card, "common_deck")), anim_time);
+            player_deck.replaceWith(make_deck(player_card, "player_deck"));
 
         } else {
             pos_start = (0 - pos_start.height - pos_start.y)+"px";
-            deck_temp = make_deck(common_card, "deck_temp")
-            setTimeout(()=> common_deck.replaceWith(make_deck(common_card, "common_deck")), anim_time)
+            deck_temp = make_deck(common_card, "deck_temp");
+            setTimeout(()=> common_deck.replaceWith(make_deck(common_card, "common_deck")), anim_time);
         }
-        deck_temp.id = "deck_temp"
+        deck_temp.id = "deck_temp";
         deck_temp.style.position = "fixed";
         deck_temp.style.transition = "top "+anim_time+"ms ease-out 0s";
         deck_temp.style.top = pos_start;
@@ -87,8 +87,8 @@ socket.on("move_result", function(data) {
         setTimeout(()=> deck_temp.remove(), anim_time);
     }
     else {
-        player_deck.replaceWith(make_deck(player_card, "player_deck"))
-        common_deck.replaceWith(make_deck(common_card, "common_deck"))
+        player_deck.replaceWith(make_deck(player_card, "player_deck"));
+        common_deck.replaceWith(make_deck(common_card, "common_deck"));
     }
 
     firstcard = false;

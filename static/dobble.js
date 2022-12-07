@@ -4,15 +4,25 @@ var socket = io(namespace);
 var game_id = parseInt(window.location.pathname.replace(/^\/+|\/+$/g, ''));
 var cycle_id;
 
+var connected = false;
+
 socket.on("connect", function() {
     var background = document.body.style.background;
     socket.emit("client_connect", {"background": background, "game_id": game_id});
-
+    connected = true;
 });
 
 socket.on("bad_link", function() {
     window.location.href = "/";
 });
+
+function connected_and_ready() {
+    if(connected === false) {
+       window.setTimeout(connected_and_ready, 100);
+    } else {
+      socket.emit("client_ready", {});
+    }
+}
 
 var Imgs = {};
 function doc_ready() {
@@ -20,7 +30,7 @@ function doc_ready() {
     for (var i=0; i < imgs_elm.length; i++){
         Imgs[i] = imgs_elm[i].src;
     }
-    setTimeout(() => socket.emit("client_ready", {}), 500);
+    connected_and_ready();
 };
 
 function make_deck (card, id) {

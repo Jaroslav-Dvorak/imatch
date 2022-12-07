@@ -113,7 +113,9 @@ class Dobble:
             for player_obj in self.players.values():
                 data[player_obj.color] = player_obj.percentage()
                 break
-        for usr in self.players:
+
+        players = dict(self.players)
+        for usr in players:
             socketio.emit("score", data, namespace="/dobble", room=[usr])
 
     def new_card(self):

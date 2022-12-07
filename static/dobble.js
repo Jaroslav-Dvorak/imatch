@@ -20,7 +20,7 @@ function doc_ready() {
     for (var i=0; i < imgs_elm.length; i++){
         Imgs[i] = imgs_elm[i].src;
     }
-    socket.emit("client_ready", {});
+    setTimeout(() => socket.emit("client_ready", {}), 500);
 };
 
 function make_deck (card, id) {

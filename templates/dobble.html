@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>dobble</title>
+    <title>imatch - {{ game_id }}</title>
 
 <!--    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"-->
 <!--            integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI"-->
@@ -23,6 +23,9 @@
 <body onload="doc_ready()" style="background: {{ background }};">
 
 <div id="score_bar">
+</div>
+<div id="game_id">
+   id hry: {{ game_id }}
 </div>
 
 <div id="img_container" style="display: none;">

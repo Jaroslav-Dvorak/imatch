@@ -19,11 +19,12 @@ align-items: center;
 }
 
 img {
-position: absolute;
-left: 50%;
-top: 50%;
-height: 30%;
-transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 30%;
+    transform: translate(-50%, -50%);
+    user-select: none
 }
 
 .clickable{
@@ -44,4 +45,15 @@ div.deck {
 #deck_temp{
     position: fixed;
     transition: top 0.3s ease-out 0s;
+}
+
+#game_id {
+    position: fixed;
+    bottom: 2vh;
+    width: 90vw;
+    max-width: 45vh;
+    font-size: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }

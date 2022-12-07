@@ -37,10 +37,11 @@ class Dobble:
         self.cycle_id = 0
         self.last_win_time = time()
 
-    def layout(self):
+    def layout(self, game_id):
         used_colors = self.COLORS - set([p.color for p in self.players.values()])
         color = choice(list(used_colors))
-        return render_template("dobble.html", imgs_path=self.imgs_path, background=color)
+        return render_template("dobble.html",
+                               game_id=game_id, imgs_path=self.imgs_path, background=color)
 
     def on_connect(self, user, data):
         background = data["background"]

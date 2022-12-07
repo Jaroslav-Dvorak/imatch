@@ -20,3 +20,9 @@ p {
     text-align: center;
     font-size: 2em;
 }
+
+.github {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}

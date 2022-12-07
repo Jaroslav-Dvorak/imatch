@@ -32,6 +32,6 @@ if __name__ == '__main__':
 # - more themes                         ✅
 # - rules and multiplayer description
 # - link to github (and others)
-# - readme file, public repo
+# - readme file, public repo            ✅
 # - english and czech
 # - wsgi and deployeent

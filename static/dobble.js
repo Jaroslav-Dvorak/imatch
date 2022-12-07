@@ -66,9 +66,8 @@ socket.on("move_result", function(data) {
 
     if (!firstcard) {
         if (winner_case) {
-            pos_start = (pos_start.y-10)+"px";
+            pos_start = (pos_start.y-9)+"px";
             deck_temp = player_deck.cloneNode(true);
-            console.log(player_deck);
             setTimeout(()=> common_deck.replaceWith(make_deck(common_card, "common_deck")), anim_time);
             player_deck.replaceWith(make_deck(player_card, "player_deck"));
 
@@ -78,12 +77,10 @@ socket.on("move_result", function(data) {
             setTimeout(()=> common_deck.replaceWith(make_deck(common_card, "common_deck")), anim_time);
         }
         deck_temp.id = "deck_temp";
-        deck_temp.style.position = "fixed";
-        deck_temp.style.transition = "top "+anim_time+"ms ease-out 0s";
         deck_temp.style.top = pos_start;
 
         body.appendChild(deck_temp);
-        setTimeout(()=> deck_temp.style.top = pos_end.y-10+"px", 1);
+        setTimeout(()=> deck_temp.style.top = pos_end.y-9+"px", 10);
         setTimeout(()=> deck_temp.remove(), anim_time);
     }
     else {

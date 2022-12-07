@@ -40,3 +40,8 @@ div.deck {
     border-radius: 50%;
     background: white;
 }
+
+#deck_temp{
+    position: fixed;
+    transition: top 0.3s ease-out 0s;
+}

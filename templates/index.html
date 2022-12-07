@@ -6,12 +6,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
+<h1>Vyber si téma a pošli odkaz dalším!</h1>
+    <form method="post">
+        <input class="view" type="image" src="./static/themes/computer.png"
+               alt="Submit" name="computer" value="computer">
+        <input class="view" type="image" src="./static/themes/emoji.png"
+               alt="Submit" name="emoji" value="emoji">
+        <input class="view" type="image" src="./static/themes/music.png"
+               alt="Submit" name="music" value="music">
+    </form>
 
-<form method="post">
-    <input type="image" src="./static/themes/computer.png"
-           alt="Submit" name="computer" value="computer" width="350" height="350">
-    <input type="image" src="./static/themes/emoji.png"
-           alt="Submit" name="emoji" value="emoji" width="350" height="350">
-</form>
+    <p>
+        Anebo hledej společné obrázky jako single-player! 😎
+    </p>
+    <ul role="list">
+        <li data-icon="😎">V takovém případě ukazatel nad kartičkama zobrazuje rychlost hráče.
+        <li data-icon="🤓">Při připojení dalších hráčů se ukazatel rozdělí podle barev ostatních a
+                            zobrazuje kdo má kolik obrázků uhádnuto.</li>
+        <li data-icon="🤓">Pozor, ukazatel se při připojení nového hráče vždy zresetuje.</li>
+        <li data-icon="🤓">Po odpojení hráčů se ukazatel přepne zpět na rychlost, přičemž je započítána i
+                            rychlost během multi-playeru.</li>
+    </ul>
+
 </body>
 </html>

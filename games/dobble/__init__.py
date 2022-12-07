@@ -1,5 +1,6 @@
 from os import listdir, path
 from random import choice
+from time import time
 from flask import request, render_template, redirect
 from app import socketio, playing
 from .card import Card
@@ -34,6 +35,7 @@ class Dobble:
         self.players = {}
         self.common_card = Card(self.img_list)
         self.cycle_id = 0
+        self.last_win_time = time()
 
     def layout(self):
         used_colors = self.COLORS - set([p.color for p in self.players.values()])
@@ -66,6 +68,7 @@ class Dobble:
             if common_pict == clicked_pict:
                 self.players[user].play(+1)
                 self.cycle_id += 1
+                self.last_win_time = time()
                 self.players[user].score += 1
                 self.common_card = self.players[user].card
                 self.players[user].card = self.new_card()
@@ -73,7 +76,7 @@ class Dobble:
                 loosers = set(self.players.keys()) - {user}
                 if loosers:
                     self.send_cards(*loosers, both_cards=False)
-            else:
+            elif (time() - self.last_win_time) > 0.25:
                 self.players[user].play(-1)
             self.send_scores()
 

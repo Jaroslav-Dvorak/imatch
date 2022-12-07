@@ -13,7 +13,7 @@ class PlaySessions:
             print(f'User: {user} connected! Data: {data}')
             refuse = False
             try:
-                game_id = data["game_id"]
+                game_id = int(data["game_id"])
                 self.games[game_id].on_connect(user, data)
             except KeyError:
                 print(f"On_client: Game does not exist.")
@@ -33,7 +33,7 @@ class PlaySessions:
             user = request.sid # NOQA
             print(f'User: {user} ready! Data: {data}')
             try:
-                game_id = self.players[user]
+                game_id = int(self.players[user])
                 self.games[game_id].on_ready(user)
             except KeyError:
                 print(f"On ready: Game does not exist.")

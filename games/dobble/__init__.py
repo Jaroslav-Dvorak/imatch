@@ -36,6 +36,7 @@ class Dobble:
         self.common_card = Card(self.img_list)
         self.cycle_id = 0
         self.last_win_time = time()
+        self.thread_run_flag = False
 
     def layout(self, game_id):
         used_colors = self.COLORS - set([p.color for p in self.players.values()])
@@ -65,7 +66,8 @@ class Dobble:
         clicked_pict = int(data["pict_id"])
         cycle_id = data["cycle_id"]
 
-        if cycle_id == self.cycle_id:
+        if cycle_id == self.cycle_id and not self.thread_run_flag:
+            self.thread_run_flag = True
             if common_pict == clicked_pict and (time() - self.last_win_time) > 0.1:
                 self.last_win_time = time()
                 self.players[user].play(+1)
@@ -80,6 +82,7 @@ class Dobble:
             elif (time() - self.last_win_time) > 0.25:
                 self.players[user].play(-1)
             self.send_scores()
+            self.thread_run_flag = False
 
     def send_cards(self, *users, both_cards):
         data = {"common_card": self.common_card.arragement,

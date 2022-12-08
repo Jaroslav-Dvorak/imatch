@@ -66,10 +66,10 @@ class Dobble:
         cycle_id = data["cycle_id"]
 
         if cycle_id == self.cycle_id:
-            if common_pict == clicked_pict:
+            if common_pict == clicked_pict and (time() - self.last_win_time) > 0.1:
+                self.last_win_time = time()
                 self.players[user].play(+1)
                 self.cycle_id += 1
-                self.last_win_time = time()
                 self.players[user].score += 1
                 self.common_card = self.players[user].card
                 self.players[user].card = self.new_card()

@@ -40,8 +40,6 @@ if __name__ == '__main__':
 # - score indicator                     ✅
 # - animations                          ✅
 # - more themes                         ✅
-# - rules and multiplayer description
-# - link to github (and others)
+# - rules and multiplayer description   ✅
+# - link to github (and others)         ✅
 # - readme file, public repo            ✅
-# - english and czech
-# - wsgi and deployeent

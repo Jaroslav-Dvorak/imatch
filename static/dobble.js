@@ -6,6 +6,8 @@ var cycle_id;
 
 var connected = false;
 
+var animation_running = false;
+
 socket.on("connect", function() {
     var background = document.body.style.background;
     socket.emit("client_connect", {"background": background, "game_id": game_id});
@@ -75,6 +77,7 @@ socket.on("move_result", function(data) {
     const anim_time = 300;
 
     if (!firstcard) {
+        animation_running = true;
         if (winner_case) {
             pos_start = (pos_start.y-9)+"px";
             deck_temp = player_deck.cloneNode(true);
@@ -92,6 +95,7 @@ socket.on("move_result", function(data) {
         body.appendChild(deck_temp);
         setTimeout(()=> deck_temp.style.top = pos_end.y-9+"px", 10);
         setTimeout(()=> deck_temp.remove(), anim_time);
+        setTimeout(()=> animation_running = false, anim_time)
     }
     else {
         player_deck.replaceWith(make_deck(player_card, "player_deck"));
@@ -102,7 +106,9 @@ socket.on("move_result", function(data) {
 });
 
 function pict_clicked(pict_id) {
-    socket.emit("pict_clicked", {"pict_id": pict_id, "game_id": game_id, "cycle_id": cycle_id});
+    if (!animation_running) {
+        socket.emit("pict_clicked", {"pict_id": pict_id, "game_id": game_id, "cycle_id": cycle_id});
+    }
 };
 
 socket.on("score", function(data) {
